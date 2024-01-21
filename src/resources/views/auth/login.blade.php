@@ -5,7 +5,20 @@
 @endsection
 
 @section('content')
-<div class="login-form__content">
+
+    <div class="login-form__content">
+        <div class="stamping__message">
+        @if (Session::has('message'))
+            <div class="logout__message">
+                <div class="message__container">
+                    <div class="message-item">
+                        {{ session('message') }}
+                    </div>
+                </div>
+            </div>
+        @endif
+        </div>
+
     <div class="logoin-form__heading">
         <h2>ログイン</h2>
     </div>

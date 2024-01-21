@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'producer' => [
+            'driver' => 'session',
+            'provider' => 'producers',
+        ],
     ],
 
     /*
@@ -69,6 +74,11 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+        'producers' => [
+            'driver' => 'eloquent',
+            'model' => App\Producer::class,
+        ],
     ],
 
     /*
