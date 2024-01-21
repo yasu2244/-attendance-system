@@ -1,10 +1,19 @@
+.message_container {
+    padding: 10px 30px;
+    border-color: #badbcc;
+    background-color: #D4EDDA;
+    color: #0f5132;
+    font-weight: bold;
+}
+
 .attendance__content {
     margin: 0 auto;
-    padding: 30px 15px;
     background-color: #DCDCDC;
+    height: 770px;
 }
 
 .attendance__heading {
+    padding-top: 20px;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -35,4 +44,9 @@
     font-weight: bold;
     font-size: 24px;
     cursor: pointer;
+}
+
+.attendance__button-submit:disabled {
+    opacity: .5;
+    cursor: default;
 }

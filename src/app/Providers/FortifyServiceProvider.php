@@ -12,15 +12,30 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\LogoutResponse;
+use Session;
+use App\Http\Controllers\Auth\LoginController;
+use Laravel\Fortify\FortifyServiceProvider as FortifyProvider;
+
 
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
-    public function register(): void
+    public function register()
     {
-        //
+        $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
+            public function toResponse($request)
+            {
+                Session::flash('message', 'ログアウトしました');
+                return redirect('/login');
+            }
+        });
+
+        Fortify::loginView(function () {
+            return view('stamp');
+        });
     }
 
     /**

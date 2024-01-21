@@ -1,10 +1,19 @@
+.logout__message {
+    padding: 10px 30px;
+    border-color: #badbcc;
+    background-color: #D4EDDA;
+    color: #0f5132;
+    font-weight: bold;
+}
+
 .login-form__content {
     margin: 0 auto;
-    padding: 30px 15px;
     background-color: #DCDCDC;
+    height: 770px;
 }
 
 .logoin-form__heading {
+    padding-top: 20px;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -18,7 +27,7 @@
 .form__group {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .form__error {
@@ -41,7 +50,7 @@
 }
 
 .form__button {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .form__button-submit {
