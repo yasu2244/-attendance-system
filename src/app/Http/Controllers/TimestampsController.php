@@ -12,63 +12,67 @@ class TimestampsController extends Controller
     public function stamp()
     {
         $userId = Auth::id();
-        $timestamp = Timestamp::where('user_id', $userId)->latest()->first();
-
-        if (!$timestamp) {
-            $timestamp = new Timestamp(['user_id' => $userId]);
+        $user = Auth::user();
+        $timestamp = Timestamp::where('user_id', $user->id)->latest()->first();
+        
+        if ($timestamp && $timestamp->status === 'end') {
+            $timestamp->status = 'default';
             $timestamp->save();
         }
 
-        return view('stamp', compact('timestamp'));
-    }
-
-    public function updateTime($status, $disable1, $disable2, $message)
-    {
-        $userId = Auth::id();
-        $timestamp = Timestamp::where('user_id', $userId)->latest()->first();
-
-        $timestamp->update([
-            $status => Carbon::now(),
-            'status' => $status,
-        ]);
-
-        $timestamp->update([
-            $disable1 => null,
-            $disable2 => null,
-        ]);
-
-        return redirect()->back()->with('message', $message);
+        $status = $timestamp ? $timestamp->status : 'default'; 
+        return view('stamp', compact('status'));
     }
 
     public function start_time()
     {
-        $userId = Auth::id();
-        $timestamp = Timestamp::where('user_id', $userId)->latest()->first();
+        $user = Auth::user();
+        $latestTimestamp = Timestamp::where('user_id', $user->id)->latest('id')->first();
 
-        return $this->updateTime('start_time', 'break_start', 'end_time', '勤務開始しました');
+        //勤務終了後、再ログインしても打刻できない。
+        if (!$latestTimestamp || $latestTimestamp->status === 'end') {
+            $timestamp = new Timestamp();
+            $timestamp->user_id = $user->id;
+            $timestamp->user_name = $user->name;
+            $timestamp->status = 'start';
+            $timestamp->start_time = Carbon::now();
+            $timestamp->save();
+
+            return redirect()->route('stamp')->with('message', '勤務開始しました');
+        }
     }
 
     public function break_start()
     {
-        $userId = Auth::id();
-        $timestamp = Timestamp::where('user_id', $userId)->latest()->first();
 
-        return $this->updateTime('break_start', 'break_end', 'end_time', '休憩を開始しました');
+        $user = Auth::user();
+        $timestamp = Timestamp::where('user_id', $user->id)->latest()->first();
+        $timestamp->break_start = Carbon::now();
+        $timestamp->status = 'break_start';
+        $timestamp->save();
+
+        return redirect()->route('stamp')->with('message', '休憩開始しました');
     }
 
     public function break_end()
     {
-        $userId = Auth::id();
-        $timestamp = Timestamp::where('user_id', $userId)->latest()->first();
+        $user = Auth::user();
+        $timestamp = Timestamp::where('user_id', $user->id)->latest()->first();
+        $timestamp->break_end = Carbon::now();
+        $timestamp->status = 'break_end';
+        $timestamp->save();
 
-        return $this->updateTime('break_end', 'start_time', 'end_time', '休憩が終了しました');
+        return redirect()->route('stamp')->with('message', '休憩終了しました');
     }
 
     public function end_time()
     {
-        $userId = Auth::id();
-        $timestamp = Timestamp::where('user_id', $userId)->latest()->first();
-        
-        return $this->updateTime('end_time', 'start_time', 'break_start', '勤務を終了しました');
+        $user = Auth::user();
+        $timestamp = Timestamp::where('user_id', $user->id)->latest()->first();
+        $timestamp->end_time = Carbon::now();
+        $timestamp->status = 'end';
+        $timestamp->save();
+
+        return redirect()->route('stamp')->with('message', '勤務終了しました');
     }
 }
