@@ -1,14 +1,22 @@
-.message_container {
-    padding: 10px 30px;
-    border-color: #badbcc;
-    background-color: #D4EDDA;
-    color: #0f5132;
+.stamping__message {
+    margin-bottom: 20px;
+}
+
+.message__container {
+    background-color: #4dbd51;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.message-item {
+    color: #020000fd;
     font-weight: bold;
 }
 
 .attendance__content {
     margin: 0 auto;
-    background-color: #DCDCDC;
+    background-color: #F2F2F2;
     height: 770px;
 }
 
@@ -39,14 +47,15 @@
     height: 200px;
     border: none;
     border-radius: 3px;
-    background: #F8F8FF;
+    background: #FFFFFF;
     color: #000;
     font-weight: bold;
     font-size: 24px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.attendance__button-submit:disabled {
-    opacity: .5;
-    cursor: default;
+.disabled-button {
+    opacity: 0.5;
+    cursor: not-allowed;
 }

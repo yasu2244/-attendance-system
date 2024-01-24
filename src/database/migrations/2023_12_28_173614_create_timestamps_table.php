@@ -16,6 +16,7 @@ class CreateTimestampsTable extends Migration
        Schema::create('timestamps', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
+            $table->string('user_name')->default('')->nullable();
             $table->dateTime('start_time')->nullable();
             $table->dateTime('break_start')->nullable();
             $table->dateTime('break_end')->nullable();
@@ -27,7 +28,7 @@ class CreateTimestampsTable extends Migration
         });
 
         Schema::table('timestamps', function (Blueprint $table) {
-            $table->string('status')->nullable();
+            $table->string('status')->default('default');;
         });
     }
 
